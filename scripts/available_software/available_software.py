@@ -493,13 +493,14 @@ def generate_json_detailed_data(modules: dict) -> dict:
     i = 0
     current = "doduo"
     for software in json_data["software"]:
-        print(f"i: {software}")
+        print(f"{i}: {software}")
         i += 1
         if current not in json_data["software"][software]["clusters"]:
             module_swap("cluster/" + json_data["software"][software]["clusters"][0])
             current = json_data["software"][software]["clusters"][0]
 
         l = module_whatis(software)
+        print(l)
         json_data["software"][software] = {**json_data["software"][software], **l}
 
     return json_data
