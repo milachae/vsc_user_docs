@@ -491,10 +491,16 @@ def generate_json_detailed_data(modules: dict) -> dict:
                     json_data["software"][software]["versions"][mod].append(cluster)
 
     i = 0
+    current = "doduo"
     for software in json_data["software"]:
-        print(i)
+        print(f"i: {software}")
         i += 1
-        json_data["software"][software] = {**json_data["software"][software], **module_whatis(software)}
+        if current not in json_data["software"][software]["clusters"]:
+            module_swap("cluster/" + json_data["software"][software]["clusters"][0])
+            current = json_data["software"][software]["clusters"][0]
+
+        l = module_whatis(software)
+        json_data["software"][software] = {**json_data["software"][software], **l}
 
     return json_data
 
