@@ -277,6 +277,11 @@ def generate_software_detail_page(
     md_file = MdUtils(file_name=filename, title=f"{software_name}")
     md_file.new_header(level=1, title="Available modules")
 
+    md_file.new_paragraph(f"{software_data['Description']}")
+    md_file.new_paragraph(f"{software_data['Homepage']}")
+    md_file.new_paragraph(f"{software_data['URL']}")
+    md_file.new_paragraph(f"{software_data['Extensions']}")
+
     md_file.new_paragraph(f"The overview below shows which {software_name} installations are available per HPC-UGent "
                           f"Tier-2cluster, ordered based on software version (new to old).")
     md_file.new_paragraph(f"To start using {software_name}, load one of these modules using a `module load` command "
@@ -484,6 +489,12 @@ def generate_json_detailed_data(modules: dict) -> dict:
                 # If the cluster is not yet present, add it.
                 if cluster not in json_data["software"][software]["versions"][mod]:
                     json_data["software"][software]["versions"][mod].append(cluster)
+
+    i = 0
+    for software in json_data["software"]:
+        print(i)
+        i += 1
+        json_data["software"][software] = {**json_data["software"][software], **module_whatis(software)}
 
     return json_data
 
